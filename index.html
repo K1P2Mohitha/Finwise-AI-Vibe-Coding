@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinWise AI — Loan Eligibility & Credit Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap navbar">
+    <div class="brand" onclick="goToView('view-landing')" style="cursor:pointer;"><span class="brand-mark">FW</span> FinWise AI</div>
+    <div class="nav-links" id="authLinks">
+      <a href="#" onclick="showView('view-login');return false;">Log in</a>
+      <button class="btn btn-primary btn-sm" onclick="showView('view-signup')">Sign up</button>
+    </div>
+    <div class="nav-links user-links" id="userLinks" style="display:none;">
+      <a href="#" onclick="goToView('view-dashboard');return false;">Dashboard</a>
+      <a href="#" onclick="goToView('view-eligibility');return false;">Eligibility</a>
+      <a href="#" onclick="goToView('view-cibil');return false;">CIBIL Check</a>
+      <a href="#" onclick="goToView('view-profile');return false;">Profile</a>
+      <span class="nav-user mono">Hi, <span id="navUserName">—</span></span>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= LANDING ================= -->
+<div class="view active" id="view-landing">
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Loan Intelligence · Credit Analysis</span>
+        <h1 class="title">Know where you stand<br><em>before</em> you apply.</h1>
+        <p class="sub">FinWise AI reads your income, obligations, and credit profile the way an underwriter would — and hands you the verdict in seconds. Create a free account to run your first check.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" onclick="showView('view-signup')">Create free account</button>
+          <button class="btn btn-ghost" onclick="showView('view-login')">I already have one</button>
+        </div>
+        <div class="stat-line">
+          <div><div class="stat-num">2.3s</div><div class="stat-label">AVG. ANALYSIS TIME</div></div>
+          <div><div class="stat-num">18+</div><div class="stat-label">AGE-VERIFIED USERS</div></div>
+          <div><div class="stat-num">₹0</div><div class="stat-label">COST TO CHECK</div></div>
+        </div>
+      </div>
+      <div class="feature-preview">
+        <div class="fp-row"><span>01</span> Sign up &amp; verify your identity (18+)</div>
+        <div class="fp-row"><span>02</span> Run your CIBIL-style credit check</div>
+        <div class="fp-row"><span>03</span> Test your loan eligibility instantly</div>
+        <div class="fp-row"><span>04</span> Track every check from your profile</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<!-- ================= SIGNUP ================= -->
+<div class="view" id="view-signup">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <span class="eyebrow">Step 1 of 2</span>
+      <h2 class="serif">Create your account</h2>
+      <p class="auth-sub">Just the basics for now — identity verification is next.</p>
+      <form id="signupForm">
+        <div class="field"><label>Full name</label><input type="text" id="suName" required></div>
+        <div class="field"><label>Email</label><input type="email" id="suEmail" required></div>
+        <div class="field"><label>Password</label><input type="password" id="suPassword" required minlength="6"></div>
+        <div class="field"><label>Confirm password</label><input type="password" id="suConfirm" required></div>
+        <div class="form-error" id="suError"></div>
+        <button type="submit" class="btn btn-primary btn-full">Continue to verification</button>
+      </form>
+      <p class="auth-switch">Already have an account? <a href="#" onclick="showView('view-login');return false;">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ID VERIFICATION ================= -->
+<div class="view" id="view-idverify">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <span class="eyebrow">Step 2 of 2</span>
+      <h2 class="serif">Identity verification</h2>
+      <p class="auth-sub">FinWise AI is for adults only. This is a demo verification (format + age check) — not a live government KYC lookup.</p>
+      <form id="idVerifyForm">
+        <div class="field"><label>Date of birth</label><input type="date" id="idDob" required></div>
+        <div class="field"><label>ID type</label>
+          <select id="idType">
+            <option value="aadhaar">Aadhaar</option>
+            <option value="pan">PAN</option>
+            <option value="voter">Voter ID</option>
+          </select>
+        </div>
+        <div class="field"><label>ID number</label><input type="text" id="idNumber" required placeholder="Enter ID number"></div>
+        <div class="form-error" id="idError"></div>
+        <button type="submit" class="btn btn-primary btn-full">Verify &amp; create account</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LOGIN ================= -->
+<div class="view" id="view-login">
+  <div class="wrap auth-wrap">
+    <div class="auth-card">
+      <span class="eyebrow">Welcome back</span>
+      <h2 class="serif">Log in</h2>
+      <form id="loginForm">
+        <div class="field"><label>Email</label><input type="email" id="liEmail" required></div>
+        <div class="field"><label>Password</label><input type="password" id="liPassword" required></div>
+        <div class="form-error" id="liError"></div>
+        <button type="submit" class="btn btn-primary btn-full">Log in</button>
+      </form>
+      <p class="auth-switch">New here? <a href="#" onclick="showView('view-signup');return false;">Create an account</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div class="view" id="view-dashboard">
+  <div class="wrap dash-wrap">
+    <div class="section-head">
+      <span class="eyebrow">Dashboard</span>
+      <h2>Welcome back, <span id="dashName">—</span>.</h2>
+      <p>Member since <span id="dashSince">—</span></p>
+    </div>
+    <div class="dash-cards">
+      <div class="dash-card">
+        <div class="rl">Eligibility checks run</div>
+        <div class="rv" id="dashElig">0</div>
+        <button class="btn btn-ghost btn-sm" onclick="goToView('view-eligibility')">Run new check →</button>
+      </div>
+      <div class="dash-card">
+        <div class="rl">Latest CIBIL-style score</div>
+        <div class="rv" id="dashCibil">—</div>
+        <button class="btn btn-ghost btn-sm" onclick="goToView('view-cibil')">Check score →</button>
+      </div>
+      <div class="dash-card">
+        <div class="rl">Profile &amp; history</div>
+        <div class="rv">📄</div>
+        <button class="btn btn-ghost btn-sm" onclick="goToView('view-profile')">View profile →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ELIGIBILITY TEST ================= -->
+<div class="view" id="view-eligibility">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Eligibility Test</span>
+      <h2>Run your eligibility check.</h2>
+      <p>Minimum tenure is 12 months. Your latest CIBIL-style score (from the CIBIL Check tab) is used automatically — run that first for an accurate rate.</p>
+    </div>
+    <div class="ledger" style="max-width:640px;">
+      <div class="ledger-head">
+        <span class="serif">Eligibility Ledger</span>
+        <span class="tag">ENTRY NO. FW-2026</span>
+      </div>
+      <div class="ledger-body">
+        <div class="field">
+          <label>Monthly income (₹) <span class="val" id="incomeVal">50,000</span></label>
+          <input type="range" id="income" min="10000" max="300000" step="1000" value="50000">
+        </div>
+        <div class="field">
+          <label>Existing monthly EMIs (₹) <span class="val" id="emiVal">5,000</span></label>
+          <input type="range" id="existingEmi" min="0" max="100000" step="500" value="5000">
+        </div>
+        <div class="field">
+          <label>Loan amount requested (₹) <span class="val" id="loanVal">10,00,000</span></label>
+          <input type="range" id="loanAmt" min="50000" max="10000000" step="10000" value="1000000">
+        </div>
+        <div class="field">
+          <label>Tenure (months, min 12) <span class="val" id="tenureVal">12</span></label>
+          <input type="range" id="tenure" min="12" max="360" step="6" value="12">
+        </div>
+        <div class="field">
+          <label>Employment type</label>
+          <select id="employment">
+            <option value="salaried">Salaried</option>
+            <option value="self">Self-employed / Business</option>
+          </select>
+        </div>
+        <button class="check-btn" onclick="runEligibility()">Run eligibility check</button>
+      </div>
+      <div class="result" id="resultBox">
+        <div class="result-top">
+          <span class="serif" style="font-size:14px;">Verdict</span>
+          <span class="stamp" id="stampEl">—</span>
+        </div>
+        <div class="result-grid">
+          <div class="result-item"><div class="rl">Indicative rate</div><div class="rv" id="rateOut">—</div></div>
+          <div class="result-item"><div class="rl">Est. monthly EMI</div><div class="rv" id="emiOut">—</div></div>
+          <div class="result-item"><div class="rl">FOIR</div><div class="rv" id="foirOut">—</div></div>
+          <div class="result-item"><div class="rl">Max eligible loan</div><div class="rv" id="maxLoanOut">—</div></div>
+        </div>
+        <div class="advisory" id="advisoryOut"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CIBIL CHECK ================= -->
+<div class="view" id="view-cibil">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">CIBIL-style Check</span>
+      <h2>Simulated credit score check.</h2>
+      <p>This is a rule-based simulator built for this project — not a live pull from CIBIL/TransUnion. Real bureau access needs a licensed backend integration.</p>
+    </div>
+    <div class="ledger" style="max-width:640px;">
+      <div class="ledger-head"><span class="serif">Credit Profile</span><span class="tag">SIMULATED</span></div>
+      <div class="ledger-body">
+        <div class="field">
+          <label>On-time payments <span class="val" id="onTimeVal">90%</span></label>
+          <input type="range" id="onTimePct" min="0" max="100" step="1" value="90">
+        </div>
+        <div class="field">
+          <label>Credit utilization <span class="val" id="utilVal">30%</span></label>
+          <input type="range" id="utilPct" min="0" max="100" step="1" value="30">
+        </div>
+        <div class="field">
+          <label>Credit history length <span class="val" id="histVal">4 yrs</span></label>
+          <input type="range" id="creditHistYears" min="0" max="20" step="1" value="4">
+        </div>
+        <div class="field">
+          <label>Number of active accounts <span class="val" id="accVal">2</span></label>
+          <input type="range" id="numAccounts" min="0" max="10" step="1" value="2">
+        </div>
+        <div class="field">
+          <label>Hard inquiries (last 12mo) <span class="val" id="inqVal">1</span></label>
+          <input type="range" id="hardInquiries" min="0" max="8" step="1" value="1">
+        </div>
+        <button class="check-btn" onclick="runCibilCheck()">Check my score</button>
+      </div>
+      <div class="result" id="cibilResultBox">
+        <div class="result-top">
+          <span class="serif" style="font-size:14px;">Score</span>
+          <span class="band-tag" id="cibilBandOut">—</span>
+        </div>
+        <div class="cibil-score mono" id="cibilScoreOut">—</div>
+        <div class="gauge"><div class="gauge-fill" id="cibilGaugeFill"></div></div>
+        <div class="gauge-scale"><span>300</span><span>900</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PROFILE ================= -->
+<div class="view" id="view-profile">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Profile</span>
+      <h2>Your account.</h2>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="pf-row"><span class="rl">Name</span><span class="rv" id="profName">—</span></div>
+        <div class="pf-row"><span class="rl">Email</span><span class="rv" id="profEmail">—</span></div>
+        <div class="pf-row"><span class="rl">Age</span><span class="rv" id="profAge">—</span></div>
+        <div class="pf-row"><span class="rl">ID type</span><span class="rv" id="profIdType">—</span></div>
+        <div class="pf-row"><span class="rl">ID number</span><span class="rv" id="profIdNum">—</span></div>
+        <div class="pf-row"><span class="rl">Member since</span><span class="rv" id="profSince">—</span></div>
+      </div>
+    </div>
+
+    <h3 class="serif history-title">Eligibility history</h3>
+    <table class="history-table">
+      <thead><tr><th>Date</th><th>Loan amt</th><th>Tenure</th><th>Rate</th><th>FOIR</th><th>Verdict</th></tr></thead>
+      <tbody id="eligHistoryBody"></tbody>
+    </table>
+
+    <h3 class="serif history-title">CIBIL-style check history</h3>
+    <table class="history-table">
+      <thead><tr><th>Date</th><th>Score</th><th>Band</th><th>On-time</th><th>Utilization</th></tr></thead>
+      <tbody id="cibilHistoryBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="footer-brand mono">FinWise AI — Academic Project, Vibe Coding Track</div>
+    <div class="disclaimer">Accounts, ID verification, and credit scores on this site are simulated for demonstration purposes and stored only in your browser's local storage. No real KYC, credit bureau, or lending system is connected.</div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
